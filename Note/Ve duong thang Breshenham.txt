@@ -1,0 +1,36 @@
+#include <graphics.h>
+#define DELAY 10
+int color = 9;
+ 
+void Bresenham(int x1, int y1, int x2, int y2){
+    int x, y, Dx, Dy, p, c1, c2;
+    Dx = abs(x2 - x1);
+    Dy = abs(y2 - y1);
+    p = 2*Dy - Dx;
+    c1 = 2*Dy;
+    c2 = 2*(Dy-Dx);
+    x = x1;
+    y = y1;
+ 
+    int x_unit = 1, y_unit = 1;
+ 
+    putpixel(x,y,color);
+    while(x != x2){
+        delay(DELAY);
+        if (p<0) p += c1;
+        else{
+            p += c2;
+            y += y_unit;
+        }
+        x += x_unit;
+        putpixel(x, y, color);
+    }
+}
+ 
+int main(){
+    int gm,gd=DETECT;
+    initgraph(&gd,&gm,NULL);
+    Bresenham(50,150, 300, 200);        // ve duong thang
+    getchar();
+    return 0;
+}

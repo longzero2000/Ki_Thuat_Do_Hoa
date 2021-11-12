@@ -1,0 +1,42 @@
+#include<stdio.h>
+#include<graphics.h>
+#include<conio.h>
+#include<math.h>
+int color=10;
+
+void ve8diem(int xc, int yc, int x, int y, int color)
+{
+    putpixel(x + xc, y + yc, color);
+    putpixel(-x + xc, y + yc, color);
+    putpixel(x + xc, -y + yc, color);
+    putpixel(-x + xc, -y + yc, color);
+    putpixel( y + xc, x + yc, color);
+    putpixel(-y + xc, x + yc, color);
+    putpixel(y + xc, -x + yc, color);
+    putpixel(-y + xc, -x + yc, color);
+}
+void Bresenham(int xc, int yc, int r, int color)
+{
+    int x=0,y=r;
+    int p=3-2*r;
+    while (x <= y)
+    {   
+		ve8diem(xc, yc, x, y, color);
+        if (p < 0) p = p+4*x+6;
+        else
+        {
+            p = p+4*(x-y)+10;
+			y--;
+        }
+        x++;
+        delay(100);
+    }
+}
+int main()
+{
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "c:\\tc\\bgi");
+    Bresenham(200, 200, 100, color);
+    getchar();
+    return 0;
+}

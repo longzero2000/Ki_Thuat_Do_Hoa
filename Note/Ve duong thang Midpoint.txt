@@ -1,0 +1,29 @@
+#include <graphics.h>
+#define DELAY 10
+
+void Midpoint(int x1, int y1, int x2, int y2,int c){
+    int x, y, dx, dy, d;
+	y=y1;
+	dx=x2-x1;
+	dy=y2-y1;
+	d=dy-dx/2;
+	for (x=x1;x<=x2;x++){
+	putpixel(x,y,c);
+	if(d<=0)
+		d=d+dy;
+	else
+		{
+		y++;
+		d=d+dy-dx;
+		}
+	delay(100);
+	}
+}
+ 
+int main(){
+    int gm,gd=DETECT;
+    initgraph(&gd,&gm,NULL);
+    Midpoint(50,150, 300, 200,15);        // ve duong thang voi c la mau tu 0-15
+    getchar();
+    return 0;
+}

@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<graphics.h>
+#include<conio.h>
+#include<math.h>
+int color=10;
+
+void ve8diem(int xc, int yc, int x, int y, int color)
+{
+    putpixel(x + xc, y + yc, color);
+    putpixel(-x + xc, y + yc, color);
+    putpixel(x + xc, -y + yc, color);
+    putpixel(-x + xc, -y + yc, color);
+    putpixel( y + xc, x + yc, color);
+    putpixel(-y + xc, x + yc, color);
+    putpixel(y + xc, -x + yc, color);
+    putpixel(-y + xc, -x + yc, color);
+}
+void Midpoint(int xc, int yc, int r, int color)
+{
+    int x = 0, y = r;
+    int f = 1 - r;
+
+    ve8diem(xc, yc, x, y, color);
+
+    while (x < y)
+    {
+        if (f < 0) f += (x << 1) + 3;
+        else
+        {
+            y--;
+            f += ((x - y) << 1) + 5;
+        }
+        x++;
+        ve8diem(xc, yc, x, y, color);
+        delay(100);
+    }
+}
+int main()
+{
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "c:\\tc\\bgi");
+    Midpoint(200, 200, 100, color);
+    getchar();
+    return 0;
+}

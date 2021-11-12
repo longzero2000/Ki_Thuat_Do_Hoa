@@ -1,0 +1,29 @@
+#include<graphics.h>
+#include<math.h>
+#include<conio.h>
+#include<stdio.h>
+int main()
+{
+//Khai bao toa do x,y duoi dang mang
+int x[4]={100,300,300,150},y[4]={200,250,300,400};
+double put_x,put_y,t;
+int gr=DETECT,gm;
+initgraph(&gr,&gm,"C:\\TURBOC3\\BGI");
+printf("\n****** Duong cong Bezier **********");
+for(int i=0;i<4;i++)                 
+{
+putpixel(x[i],y[i],BLUE);
+setcolor(BLUE);//Chon mau ve khung
+	if (i<3)
+		line(x[i],y[i],x[i+1],y[i+1]);//Ve khung
+}
+
+for(t=0.0;t<=1.0;t=t+0.001)
+{
+put_x = pow(1-t,3)*x[0] + 3*t*pow(1-t,2)*x[1] + 3*t*t*(1-t)*x[2] + pow(t,3)*x[3];
+put_y =  pow(1-t,3)*y[0] + 3*t*pow(1-t,2)*y[1] + 3*t*t*(1-t)*y[2] + pow(t,3)*y[3];
+putpixel(put_x,put_y, RED);
+}
+getch();
+closegraph();
+}

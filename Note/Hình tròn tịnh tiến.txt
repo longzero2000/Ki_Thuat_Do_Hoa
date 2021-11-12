@@ -1,0 +1,107 @@
+#include<iostream>
+#include<stdlib.h>
+#ifdef __APPLE__
+#else 
+#include<GL/glut.h>
+#endif
+
+using namespace std;
+float ballX = -0.5f;
+float ballY = 0.0f;
+float ballZ = -1.0f;
+static int flag=1;
+void drawBall(void) {
+		glColor3f(0.0, 1.0, 0.0); //set ball colour
+        glTranslatef(ballX,ballY,ballZ);
+        glTranslatef(ballX+1.5,ballY,ballZ);
+        glutSolidSphere (0.3, 20, 20); //
+        }
+void keyPress(unsigned char key,int x,int y)
+{
+
+    switch(key)
+    {
+       case 27:
+            exit(0);     
+    }
+}
+
+void initRendering()
+{
+    glEnable(GL_DEPTH_TEST);
+}
+void handleResize(int w, int h) {
+    glViewport(0, 0, w, h);
+    glColor3f(0.0, 1.0, 0.0);//Mau sac doi tuong
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0,(double)w / (double)h,1.0,200.0);                
+}
+
+
+
+float _angle = 30.0f;
+float _cameraAngle = 0.0f;
+//hinh tron
+void drawScene()
+{
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+   
+    glMatrixMode(GL_MODELVIEW);
+   
+    glLoadIdentity();
+    drawBall();
+    //drawBall2();
+
+    glutSwapBuffers();
+}
+
+//float _angle = 30.0f;
+void update(int value) {
+    if(flag)
+    {
+    ballX += 0.001f;
+       if(ballX>0.3)
+       {
+           flag=0;
+
+       }
+    }
+    if (!flag)
+    {
+        ballX -= 0.001f;
+        if(ballX<-0.3)
+       {
+           flag=1;
+
+       }
+    }
+   
+    glutPostRedisplay();
+    glutTimerFunc(25, update, 0);
+}
+
+int main(int argc,char** argv)
+{
+    glutInit(&argc,argv);
+   
+    glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH);
+   
+    glutInitWindowSize(600,400);
+   
+    glutCreateWindow("Hinh tron tinh tien");
+   
+    initRendering();
+   
+    glutDisplayFunc(drawScene);
+   
+    glutKeyboardFunc(keyPress);
+
+    glutReshapeFunc(handleResize);
+   
+    glutTimerFunc(15, update, 0); //thoi gian xoay
+   
+    glutMainLoop();
+   
+    return(0);
+}
